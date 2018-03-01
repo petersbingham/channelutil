@@ -20,7 +20,7 @@ class calculator:
         else:
             self.thresholds = thresholds
         if ls is None:
-            self.ls = [0]*len(thresholds)
+            self.ls = [0]*len(self.thresholds)
         else:
             self.ls = ls
         self.massMult = massMult
@@ -56,6 +56,10 @@ class calculator:
         elif self.ktype == SIGNS_ANA_OVER_THRES:
             return self._kanaOverThres(ch, ene)
 
+    # Returns threshold potential for a channel
+    def th(self, ch):
+        return self.thresholds[ch]
+        
     # Returns angular momentum for a channel
     def l(self, ch):
         return self.ls[ch]
