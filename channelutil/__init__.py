@@ -1,20 +1,19 @@
 import pynumwrap as nw
-
-REDUCED_MASS = 1.0  
    
-SIGNS_POS = "SignsPositive"
-SIGNS_SPECIFIED = "SignsSpecified"
+signs_pos = "SignsPositive"
+signs_specified = "SignsSpecified"
 
-SIGNS_BNDANDRES = "SignsForBndAndRes"
+signs_bndandres = "SignsForBndAndRes"
 
-SIGNS_ANA_OVER_AXIS = "SignsAnaOverAxis"
-SIGNS_ANA_OVER_THRES = "SignsAnaOverThres"
+signs_ana_over_axis = "SignsAnaOverAxis"
+signs_ana_over_thres = "SignsAnaOverThres"
 
-MASSMULT_RYDBERGS = 1.0
-MASSMULT_HARTREES = 2.0
+rydbergs = 1
+hartrees = 2
 
-class calculator:
-    def __init__(self, thresholds=None, ls=None, ktype=SIGNS_POS, ksigns=None, massMult=MASSMULT_RYDBERGS):
+# Performs asymptotic calculations
+class asymCal:
+    def __init__(self, thresholds=None, ls=None, signSel=signs_pos, signs=None, units=rydbergs):
         if thresholds is None:
             self.thresholds = []
         else:
@@ -23,20 +22,27 @@ class calculator:
             self.ls = [0]*len(self.thresholds)
         else:
             self.ls = ls
-        self.massMult = massMult
-        self.ktype = ktype
-        self.ksigns = ksigns
+        if units == rydbergs:
+            self.massMult = 1.0
+        else:
+            self.massMult = 2.0
+        self.signSel = signSel
+        self.signs = signs
 
     def __str__(self):
-        if self.ksigns is None:
-            return self.ktype
+        if self.signs is None:
+            return self.signSel
         else:
-            return nw.floatList(self.ksigns)
+            return nw.floatList(self.signs)
 
-    # Converts free electron wavenumber to energy
-    def fe(self, k):
+    # Converts electron wavenumber to kinetic energy
+    def ke(self, k):
         ene = (1.0/self.getMult())*k**2
         return nw.complex(ene)
+
+    # Converts election wavenumber to total energy
+    def e(self, ch, k):
+        return ke(k) + self.thresholds[ch]
 
     # Converts free electron energy to wavenumber
     def fk(self, ene): #free k
@@ -45,15 +51,15 @@ class calculator:
 
     # Converts channel electron energy to wavenumber
     def k(self, ch, ene):
-        if self.ktype == SIGNS_POS:
+        if self.signSel == signs_pos:
             return self._kpos(ch, ene)
-        elif self.ktype == SIGNS_SPECIFIED:
+        elif self.signSel == signs_specified:
             return self._kspecified(ch, ene)
-        elif self.ktype == SIGNS_BNDANDRES:
+        elif self.signSel == signs_bndandres:
             return self._kbndAndRes(ch, ene)
-        elif self.ktype == SIGNS_ANA_OVER_AXIS:
+        elif self.signSel == signs_ana_over_axis:
             return self._kanaOverAxis(ch, ene)
-        elif self.ktype == SIGNS_ANA_OVER_THRES:
+        elif self.signSel == signs_ana_over_thres:
             return self._kanaOverThres(ch, ene)
 
     # Returns threshold potential for a channel
@@ -65,7 +71,7 @@ class calculator:
         return self.ls[ch]
 
     def getMult(self):
-        return self.massMult*REDUCED_MASS
+        return self.massMult
 
     def isElastic(self):
         return self.thresholds[1:] == self.thresholds[:-1]
@@ -81,8 +87,8 @@ class calculator:
 
     def _kspecified(self, ch, ene):
         mult = 1.0
-        if self.ksigns is not None:
-            mult = self.ksigns[ch]
+        if self.signs is not None:
+            mult = self.signs[ch]
         return mult * self._kpos(ch, ene)
 
     def _kbndAndRes(self, ch, ene):
