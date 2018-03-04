@@ -19,7 +19,7 @@ As in the introduction. The various calculations supported are mostly simple and
 ### Constructor
 The channels are described via the parameters supplied in the constructor to ```asymCal``` class in the package scope. It looks like:
 ```python
-def __init__(self, thresholds=None, ls=None, signSel=SIGNS_POS, signs=None, units=RYDBERGS)
+__init__(self, thresholds=None, ls=None, signSel=signs_pos, signs=None, units=rydbergs)
 ```
 If the class is constructed using the default parameters then it will provide calculations for a single channel reaction. 
 
