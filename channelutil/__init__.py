@@ -129,3 +129,9 @@ class asymCal:
         else:
             sign = 1.0
         return sign*k
+
+def usePythonTypes(dps=nw.dps_default_python):
+    nw.usePythonTypes(dps)
+
+def useMpmathTypes(dps=nw.dps_default_mpmath):
+    nw.useMpmathTypes(dps)
