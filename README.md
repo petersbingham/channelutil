@@ -19,7 +19,7 @@ As in the introduction. The various calculations supported are mostly simple and
 ### Constructor
 The channels are described via the parameters supplied in the constructor to ```asymCal``` class in the package scope. It looks like:
 ```python
-def __init__(self, thresholds=None, ls=None, signSel=SIGNS_POS, signs=None, units=RYDBERGS)
+__init__(self, thresholds=None, ls=None, signSel=signs_pos, signs=None, units=rydbergs)
 ```
 If the class is constructed using the default parameters then it will provide calculations for a single channel reaction. 
 
@@ -33,11 +33,11 @@ If `thresholds` is supplied as a list with identical elements then `asymCal` wil
 
 ### Sign Selection
 The package was developed as a means to provide selection of signs when converting from electron energies to wavenumbers that arise from the plus and minus signs in front of the square root energy wavenumber relationship. See "S.A. Rakityansky P.O.G. Ogunbade. S-matrix parametrization as a way of locating quantum resonances and bound states:multichannel case, 2010" for details. Some selections are provided, see below for further details. We plan to provide more elaborate selections in the future. All of the selections below exist in the package scope.
-`signs_pos` : Uses positive signs always.
-`signs_specified` : Uses signs as specified with the constructor `signs` parameter.
-`signs_bndandres` : Chooses signs to place on the unphysical sheet above threshold and physical sheet below threshold.
-`signs_ana_over_axis` : Chooses signs to attempt to retain analyticity when crossing the real axis. 
-`signs_ana_over_thres` : Chooses signs to attempt to retain analyticity when crossing the thresholds.
+ - `signs_pos` : Uses positive signs always.
+ - `signs_specified` : Uses signs as specified with the constructor `signs` parameter.
+ - `signs_bndandres` : Chooses signs to place on the unphysical sheet above threshold and physical sheet below threshold.
+ - `signs_ana_over_axis` : Chooses signs to attempt to retain analyticity when crossing the real axis. 
+ - `signs_ana_over_thres` : Chooses signs to attempt to retain analyticity when crossing the thresholds.
 
 ### Example
 ```python
