@@ -70,6 +70,9 @@ class asymCal:
     def l(self, ch):
         return self.ls[ch]
 
+    def getNumberChannels(self):
+        return len(self.thresholds)
+
     def getMult(self):
         return self.massMult
 
