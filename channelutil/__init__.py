@@ -1,5 +1,6 @@
 import pynumwrap as nw
-   
+from units import *
+
 signs_pos = "SignsPositive"
 signs_specified = "SignsSpecified"
 
@@ -8,12 +9,9 @@ signs_bndandres = "SignsForBndAndRes"
 signs_ana_over_axis = "SignsAnaOverAxis"
 signs_ana_over_thres = "SignsAnaOverThres"
 
-rydbergs = 1
-hartrees = 2
-
 # Performs asymptotic calculations
 class asymCal:
-    def __init__(self, thresholds=None, ls=None, signSel=signs_pos, signs=None, units=rydbergs):
+    def __init__(self, thresholds=None, ls=None, signSel=signs_pos, signs=None, units=None):
         if thresholds is None:
             self.thresholds = []
         else:
@@ -22,10 +20,13 @@ class asymCal:
             self.ls = [0]*len(self.thresholds)
         else:
             self.ls = ls
-        if units == rydbergs:
-            self.massMult = 1.0
-        else:
-            self.massMult = 2.0
+        self.units = units
+        if units == RYDs:
+            self.eneConv = 1.0
+        elif units == HARTs:
+            self.eneConv = 1./RYD_to_HART
+        elif units == HARTs:
+            self.eneConv = 1./RYD_to_EV
         self.signSel = signSel
         self.signs = signs
 
@@ -37,7 +38,7 @@ class asymCal:
 
     # Converts electron wavenumber to kinetic energy
     def ke(self, k):
-        ene = (1.0/self.getMult())*k**2
+        ene = (1.0/self.getEneConv())*k**2
         return nw.complex(ene)
 
     # Converts election wavenumber to total energy
@@ -46,7 +47,7 @@ class asymCal:
 
     # Converts free electron energy to wavenumber
     def fk(self, ene): #free k
-        k = nw.sqrt(self.getMult()*ene)
+        k = nw.sqrt(self.getEneConv()*ene)
         return nw.complex(k)
 
     # Converts channel electron energy to wavenumber
@@ -73,8 +74,11 @@ class asymCal:
     def getNumberChannels(self):
         return len(self.thresholds)
 
-    def getMult(self):
-        return self.massMult
+    def getUnits(self):
+        return self.units
+
+    def getEneConv(self):
+        return self.eneConv
 
     def isElastic(self):
         return self.thresholds[1:] == self.thresholds[:-1]
@@ -86,7 +90,7 @@ class asymCal:
         #if ene.real < self.thresholds[ch]:
         #    print "WARNING!"
         #    print str(ene) + "   " + str(self.thresholds[ch])
-        return self.getMult()*(ene - self.thresholds[ch])
+        return self.getEneConv()*(ene - self.thresholds[ch])
 
     def _kspecified(self, ch, ene):
         mult = 1.0
