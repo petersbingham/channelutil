@@ -10,5 +10,5 @@ setup(name='channelutil',
       author="Peter Bingham",
       author_email="petersbingham@hotmail.co.uk",
       packages=['channelutil'],
-      package_data={'channelutil': ['tests/*', 'README.md'],
+      package_data={'channelutil': ['tests/*', 'README.md']}
      )
