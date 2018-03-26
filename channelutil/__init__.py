@@ -11,15 +11,20 @@ signs_ana_over_thres = "SignsAnaOverThres"
 
 # Performs asymptotic calculations
 class asymCal:
-    def __init__(self, thresholds=None, ls=None, signSel=signs_pos, signs=None, units=None):
-        if thresholds is None:
-            self.thresholds = []
-        else:
-            self.thresholds = thresholds
+    def __init__(self, units, ls=None, thresholds=None, signSel=signs_pos, signs=None):
         if ls is None:
-            self.ls = [0]*len(self.thresholds)
+            if thresholds is not None:
+                self.ls = [0]*len(thresholds)
+            else:
+                self.ls = [0]
         else:
             self.ls = ls
+
+        if thresholds is None:
+            self.thresholds = [0.]*len(self.ls)
+        else:
+            self.thresholds = thresholds
+
         self.units = units
         if units == RYDs:
             self.eneConv = 1.0
