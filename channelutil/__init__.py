@@ -11,7 +11,8 @@ signs_ana_over_thres = "SignsAnaOverThres"
 
 # Performs asymptotic calculations
 class asymCal:
-    def __init__(self, units, ls=None, thresholds=None, signSel=signs_pos, signs=None):
+    def __init__(self, units, ls=None, isPolar=False, thresholds=None, 
+                 signSel=signs_pos, signs=None):
         if ls is None:
             if thresholds is not None:
                 self.ls = [0]*len(thresholds)
@@ -19,6 +20,8 @@ class asymCal:
                 self.ls = [0]
         else:
             self.ls = ls
+
+        self.polar = isPolar
 
         if thresholds is None:
             self.thresholds = [0.]*len(self.ls)
@@ -87,6 +90,9 @@ class asymCal:
 
     def isElastic(self):
         return self.thresholds[1:] == self.thresholds[:-1]
+
+    def isPolar(self):
+        return self.polar
 
     def _kpos(self, ch, ene):
         return nw.sqrt(self._getValue(ch, ene))
