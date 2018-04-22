@@ -36,10 +36,14 @@ class asymCal:
         self.signs = signs
 
     def __str__(self):
+        ret = "ls:" + str(self.ls) + ", thres:" + str(self.thresholds)
+        ret += ", signs:"
         if self.signs is None:
-            return self.signSel
+            ret += self.signSel
         else:
-            return nw.floatList(self.signs)
+            ret += nw.floatList(self.signs)
+        ret += ", " + self.units
+        return ret
 
     # Converts electron wavenumber to kinetic energy
     def ke(self, k):

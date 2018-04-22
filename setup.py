@@ -5,7 +5,7 @@ import shutil
 shutil.copy('README.md', 'channelutil/README.md')
 
 setup(name='channelutil',
-      version='0.7',
+      version='0.8',
       description='Python package to convert between asymptotic wavenumbers and energies for multichannel, inelastic collisions.',
       author="Peter Bingham",
       author_email="petersbingham@hotmail.co.uk",
