@@ -10,7 +10,7 @@ signs_ana_over_axis = "SignsAnaOverAxis"
 signs_ana_over_thres = "SignsAnaOverThres"
 
 # Performs asymptotic calculations
-class asymCal:
+class AsymCalc:
     def __init__(self, units, ls=None, thresholds=None, signSel=signs_pos, signs=None):
         if ls is None:
             if thresholds is not None:
