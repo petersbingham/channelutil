@@ -11,7 +11,7 @@ signs_ana_over_thres = "SignsAnaOverThres"
 
 # Performs asymptotic calculations
 class AsymCalc:
-    def __init__(self, units, ls=None, thresholds=None, signSel=signs_pos, signs=None):
+    def __init__(self, units, ls=None, thresholds=None, sign_sel=signs_pos, signs=None):
         if ls is None:
             if thresholds is not None:
                 self.ls = [0]*len(thresholds)
@@ -27,27 +27,27 @@ class AsymCalc:
 
         self.units = units
         if units == RYDs:
-            self.eneConv = 1.0
+            self.ene_conv = 1.0
         elif units == HARTs:
-            self.eneConv = 1./RYD_to_HART
+            self.ene_conv = 1./RYD_to_HART
         elif units == HARTs:
-            self.eneConv = 1./RYD_to_EV
-        self.signSel = signSel
+            self.ene_conv = 1./RYD_to_EV
+        self.sign_sel = sign_sel
         self.signs = signs
 
     def __str__(self):
         ret = "ls:" + str(self.ls) + ", thres:" + str(self.thresholds)
         ret += ", signs:"
         if self.signs is None:
-            ret += self.signSel
+            ret += self.sign_sel
         else:
-            ret += nw.floatList(self.signs)
+            ret += nw.float_list(self.signs)
         ret += ", " + self.units
         return ret
 
     # Converts electron wavenumber to kinetic energy
     def ke(self, k):
-        ene = (1.0/self.getEneConv())*k**2
+        ene = (1.0/self.get_ene_conv())*k**2
         return nw.complex(ene)
 
     # Converts election wavenumber to total energy
@@ -56,21 +56,21 @@ class AsymCalc:
 
     # Converts free electron energy to wavenumber
     def fk(self, ene): #free k
-        k = nw.sqrt(self.getEneConv()*ene)
+        k = nw.sqrt(self.get_ene_conv()*ene)
         return nw.complex(k)
 
     # Converts channel electron energy to wavenumber
     def k(self, ch, ene):
-        if self.signSel == signs_pos:
+        if self.sign_sel == signs_pos:
             return self._kpos(ch, ene)
-        elif self.signSel == signs_specified:
-            return self._kspecified(ch, ene)
-        elif self.signSel == signs_bndandres:
-            return self._kbndAndRes(ch, ene)
-        elif self.signSel == signs_ana_over_axis:
-            return self._kanaOverAxis(ch, ene)
-        elif self.signSel == signs_ana_over_thres:
-            return self._kanaOverThres(ch, ene)
+        elif self.sign_sel == signs_specified:
+            return self._k_specified(ch, ene)
+        elif self.sign_sel == signs_bndandres:
+            return self._k_bnd_and_res(ch, ene)
+        elif self.sign_sel == signs_ana_over_axis:
+            return self._k_ana_over_axis(ch, ene)
+        elif self.sign_sel == signs_ana_over_thres:
+            return self._k_ana_over_thres(ch, ene)
 
     # Returns threshold potential for a channel
     def th(self, ch):
@@ -80,34 +80,34 @@ class AsymCalc:
     def l(self, ch):
         return self.ls[ch]
 
-    def getNumberChannels(self):
+    def get_number_channels(self):
         return len(self.thresholds)
 
-    def getUnits(self):
+    def get_units(self):
         return self.units
 
-    def getEneConv(self):
-        return self.eneConv
+    def get_ene_conv(self):
+        return self.ene_conv
 
-    def isElastic(self):
+    def is_elastic(self):
         return self.thresholds[1:] == self.thresholds[:-1]
 
     def _kpos(self, ch, ene):
-        return nw.sqrt(self._getValue(ch, ene))
+        return nw.sqrt(self._get_value(ch, ene))
 
-    def _getValue(self, ch, ene):
+    def _get_value(self, ch, ene):
         #if ene.real < self.thresholds[ch]:
         #    print "WARNING!"
         #    print str(ene) + "   " + str(self.thresholds[ch])
-        return self.getEneConv()*(ene - self.thresholds[ch])
+        return self.get_ene_conv()*(ene - self.thresholds[ch])
 
-    def _kspecified(self, ch, ene):
+    def _k_specified(self, ch, ene):
         mult = 1.0
         if self.signs is not None:
             mult = self.signs[ch]
         return mult * self._kpos(ch, ene)
 
-    def _kbndAndRes(self, ch, ene):
+    def _k_bnd_and_res(self, ch, ene):
         k = self._kpos(ch, ene)
         if ene.real <= self.thresholds[ch]: 
             # We want to be on the physical here
@@ -124,7 +124,7 @@ class AsymCalc:
         return sign*k
 
     # This keeps function analytical AS LONG as you don't cross thresholds.
-    def _kanaOverAxis(self, ch, ene):
+    def _k_ana_over_axis(self, ch, ene):
         k = self._kpos(ch, ene)
         if ene.real <= self.thresholds[ch]: 
             #We want smooth transition over the real axis
@@ -138,7 +138,7 @@ class AsymCalc:
         return sign*k
 
     # This keeps function analytical AS LONG as you don't cross axis.
-    def _kanaOverThres(self, ch, ene):
+    def _k_ana_over_thres(self, ch, ene):
         k = self._kpos(ch, ene)
         if ene.imag >= 0.0:
             sign = -1.0
@@ -146,8 +146,8 @@ class AsymCalc:
             sign = 1.0
         return sign*k
 
-def usePythonTypes(dps=nw.dps_default_python):
-    nw.usePythonTypes(dps)
+def use_python_types(dps=nw.dps_default_python):
+    nw.use_python_types(dps)
 
-def useMpmathTypes(dps=nw.dps_default_mpmath):
-    nw.useMpmathTypes(dps)
+def use_mpmath_types(dps=nw.dps_default_mpmath):
+    nw.use_mpmath_types(dps)
