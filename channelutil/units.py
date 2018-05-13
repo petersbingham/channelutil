@@ -1,10 +1,9 @@
-RYDs = "rydbergs"
-HARTs = "hartrees"
+rydbergs = "rydbergs"
+hartrees = "hartrees"
 eVs = "eVs"
 
-RYD_to_EV = 13.605698066
-RYD_to_HART = 0.5
-HART_to_EV = 2*RYD_to_EV
+rydbergs_to_eVs = 13.605698066
+rydbergs_to_hartrees = 0.5
+hartrees_to_eVs = 2*rydbergs_to_eVs
 
-
-BOHRSQ_to_ANGSQ = 0.280028560859208001
+bohr2_to_angstrom2 = 0.280028560859208001

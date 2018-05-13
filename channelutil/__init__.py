@@ -11,7 +11,8 @@ signs_ana_over_thres = "SignsAnaOverThres"
 
 # Performs asymptotic calculations
 class AsymCalc:
-    def __init__(self, units, ls=None, thresholds=None, sign_sel=signs_pos, signs=None):
+    def __init__(self, units, ls=None, thresholds=None, sign_sel=signs_pos,
+                 signs=None):
         if ls is None:
             if thresholds is not None:
                 self.ls = [0]*len(thresholds)
@@ -26,12 +27,12 @@ class AsymCalc:
             self.thresholds = thresholds
 
         self.units = units
-        if units == RYDs:
+        if units == rydbergs:
             self.ene_conv = 1.0
-        elif units == HARTs:
-            self.ene_conv = 1./RYD_to_HART
-        elif units == HARTs:
-            self.ene_conv = 1./RYD_to_EV
+        elif units == hartrees:
+            self.ene_conv = 1./rydbergs_to_hartrees
+        elif units == hartrees:
+            self.ene_conv = 1./rydbergs_to_eVs
         self.sign_sel = sign_sel
         self.signs = signs
 
