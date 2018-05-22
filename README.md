@@ -44,8 +44,8 @@ The package was developed as a means to provide selection of signs when converti
 ### Example
 ```python
 >>> import channelutil as cu
->>> calc1 = cu.AsymCalc(thresholds=[0.0,1.0], sign_sel=cu.signs_ana_over_axis)
->>> calc2 = cu.AsymCalc(thresholds=[0.0,1.0], sign_sel=cu.signs_ana_over_thres)
+>>> calc1 = cu.AsymCalc(units=cu.rydbergs, thresholds=[0.0,1.0], sign_sel=cu.signs_ana_over_axis)
+>>> calc2 = cu.AsymCalc(units=cu.rydbergs, thresholds=[0.0,1.0], sign_sel=cu.signs_ana_over_thres)
 >>> calc1.k(0,1.0+0.1j)
 (1.0012461141278126+0.04993777183700243j)
 >>> calc1.k(0,1.0-0.1j)
