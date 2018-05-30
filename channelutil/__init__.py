@@ -42,7 +42,7 @@ class AsymCalc:
         if self.signs is None:
             ret += self.sign_sel
         else:
-            ret += nw.float_list(self.signs)
+            ret += str(map(lambda x:str(x),self.signs)).replace("'","")
         ret += ", " + self.units
         return ret
 
