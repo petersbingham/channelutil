@@ -11,18 +11,24 @@ signs_ana_over_thres = "SignsAnaOverThres"
 
 # Performs asymptotic calculations
 class AsymCalc:
-    def __init__(self, units, ls=None, thresholds=None, sign_sel=signs_pos,
-                 signs=None):
-        if ls is None:
+    def __init__(self, units, angmoms=None, tot_spin=None, targ_spins=None,
+                 thresholds=None, sign_sel=signs_pos, signs=None):
+        if angmoms is None:
             if thresholds is not None:
-                self.ls = [0]*len(thresholds)
+                self.angmoms = [0]*len(thresholds)
             else:
-                self.ls = [0]
+                self.angmoms = [0]
         else:
-            self.ls = ls
+            self.angmoms = angmoms
+
+        if tot_spin is None:
+            self.tot_spin_ = 0.5
+
+        if targ_spins is None:
+            self.targ_spins_ = 0.
 
         if thresholds is None:
-            self.thresholds = [0.]*len(self.ls)
+            self.thresholds = [0.]*len(self.angmoms)
         else:
             self.thresholds = thresholds
 
@@ -37,7 +43,9 @@ class AsymCalc:
         self.signs = signs
 
     def __str__(self):
-        ret = "ls:" + str(self.ls) + ", thres:" + str(self.thresholds)
+        ret = "angmoms:" + str(self.angmoms) + ", tot_spin:" + str(self.tot_spin_)
+        ret += ", targ_spins:" + str(self.targ_spins_)
+        ret += ", thres:" + str(self.thresholds)
         ret += ", signs:"
         if self.signs is None:
             ret += self.sign_sel
@@ -74,12 +82,23 @@ class AsymCalc:
             return self._k_ana_over_thres(ch, ene)
 
     # Returns threshold potential for a channel
-    def th(self, ch):
+    def thres(self, ch):
         return self.thresholds[ch]
         
     # Returns angular momentum for a channel
-    def l(self, ch):
-        return self.ls[ch]
+    def angmom(self, ch):
+        return self.angmoms[ch]
+    
+    # Returns total spin for system
+    def tot_spin(self):
+        return self.tot_spin_
+
+    # Returns spin for a channel
+    def targ_spins(self, ch):
+        try:
+            return self.targ_spins_[ch]
+        except TypeError:
+            return self.targ_spins_
 
     def get_number_channels(self):
         return len(self.thresholds)
