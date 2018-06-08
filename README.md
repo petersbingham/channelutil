@@ -11,7 +11,7 @@ Clone the repository and install with the following commands:
     
 ## Dependencies
 Author packages (these will have their own dependencies):
- - pynumwrap https://github.com/petersbingham/pynumwrap
+ - [pynumwrap](https://github.com/petersbingham/pynumwrap)
 
 ## Usage
 As in the introduction. The various calculations supported are mostly simple and can be ascertained by looking in the channelutil/\_\_init\_\_.py file.
