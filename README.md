@@ -19,17 +19,19 @@ As in the introduction. The various calculations supported are mostly simple and
 ### Constructor
 The channels are described via the parameters supplied in the constructor to ```AsymCalc``` class in the package scope. It looks like:
 ```python
-__init__(self, units, ls=None, thresholds=None, sign_sel=signs_pos, signs=None)
+__init__(self, units, angmoms=None, tot_spin=None, targ_spins=None, thresholds=None, sign_sel=signs_pos, signs=None)
 ```
 `units` specifies the units to be used in the calculations; either `rydbergs` or `hartrees`, both of which are in package scope.
 
 If the class is constructed using the default parameters then it will provide calculations for a single channel reaction. 
 
-If only `ls` is supplied then `AsymCalc` will provide calculations for a multichannel elastic reaction, otherwise thresholds can be specified using the `thresholds` parameter.
+If only `angmoms` is supplied then `AsymCalc` will provide calculations for a multichannel elastic reaction, otherwise thresholds can be specified using the `thresholds` parameter.
 
 If only `thresholds` is supplied then `AsymCalc` will provide calculations for zero angular momenta in all channels.
 
-`ls` contains the angular momenta for each for the channels. It should be of equal length to the `thresholds` parameter (if supplied) with the indices of the two lists describing the same channels. If `ls` is not supplied then the calculation will be for zero angular momenta in all channels.
+`angmoms` contains the angular momenta for each for the channels. It should be of equal length to the `thresholds` parameter (if supplied) with the indices of the two lists describing the same channels. If `angmoms` is not supplied then the calculation will be for zero angular momenta in all channels.
+
+The spin related quantities can be specified with the `tot_spin` and `targ_spins` arguments. If not supplied `tot_spin` defaults to a value of 0.5 and `targ_spins` to 0.0.
 
 `sign_sel` and `signs` parameters. See next section.
 
