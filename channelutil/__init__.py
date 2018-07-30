@@ -46,13 +46,14 @@ class AsymCalc:
         ret = "angmoms:" + str(self.angmoms) + ", tot_spin:" + str(self.tot_spin_)
         ret += ", targ_spins:" + str(self.targ_spins_)
         ret += ", thres:" + str(self.thresholds)
-        ret += ", signs:"
-        if self.signs is None:
-            ret += self.sign_sel
-        else:
-            ret += str(map(lambda x:str(x),self.signs)).replace("'","")
         ret += ", " + self.units
         return ret
+
+    def sign_str(self):
+        if self.signs is None:
+            return self.sign_sel
+        else:
+            return str(map(lambda x:str(x),self.signs)).replace("'","")
 
     # Converts electron wavenumber to kinetic energy
     def ke(self, k):
