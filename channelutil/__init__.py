@@ -1,5 +1,6 @@
 import pynumwrap as nw
 from units import *
+from channelutil.release import __version__
 
 signs_pos = "SignsPositive"
 signs_specified = "SignsSpecified"

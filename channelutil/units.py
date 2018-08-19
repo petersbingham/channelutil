@@ -1,6 +1,6 @@
-rydbergs = "rydbergs"
-hartrees = "hartrees"
-eVs = "eVs"
+rydbergs = "Ry"
+hartrees = "Ha"
+eVs = "eV"
 
 rydbergs_to_eVs = 13.605698066
 rydbergs_to_hartrees = 0.5
